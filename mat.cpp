@@ -23,7 +23,7 @@ void mat2arr(int w, int h, int **arr)
 {
     int k = 0;
     bool flag = true;
-    while (k<w/2||k<h/2) 
+    while (k<=w/2||k<=h/2) 
     {
         for (int j=k; j<w-k; j++) {
             if (flag && h-k>0) {
