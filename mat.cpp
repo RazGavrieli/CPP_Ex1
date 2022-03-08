@@ -25,7 +25,6 @@ void mat2arr(int w, int h, int **arr)
     bool flag = true;
     while (k<w/2||k<h/2) 
     {
-        //std::cout << w << " " << h << " " << k << "\t";
         for (int j=k; j<w-k; j++) {
             if (flag && h-k>0) {
                 arr[k][j] = 1;}
@@ -76,8 +75,11 @@ namespace ariel {
         if (w<=0||h<=0) {
             throw std::runtime_error("Mat size is always positive");
         }
-        if (a==b) {
-            throw std::runtime_error("Mat has to contain 2 different symbols");
+        // if (a==b) {
+        //     throw std::runtime_error("Mat has to contain 2 different symbols");
+        // }
+        if (a==' '||b==' '||a=='\t'||b=='\t'||a=='\n'||b=='\n'||a=='\r'||b=='\r') {
+            throw std::runtime_error("Mat can't contain special characters");
         }
         std::string res;
         if (w==1&&h==1) {

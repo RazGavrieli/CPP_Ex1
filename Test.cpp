@@ -59,6 +59,7 @@ TEST_CASE("Good input") {
 }
 
 TEST_CASE("Bad input") {
+	/* even input (5)*/
 	SUBCASE("even input") {
 		CHECK_THROWS(mat(10, 5, '$', '%'));
 		CHECK_THROWS(mat(5, 10, '$', '%'));
@@ -66,12 +67,22 @@ TEST_CASE("Bad input") {
 		CHECK_THROWS(mat(2, 2, '$', '%'));
 		CHECK_THROWS(mat(9563331, 19532, '+', '-'));
 	}
-	SUBCASE("same char") {		
-		CHECK_THROWS(mat(11, 7, '$', '$'));
-		CHECK_THROWS(mat(1, 1, '=', '='));
-		CHECK_THROWS(mat(2, 7, '%', '%'));
-		CHECK_THROWS(mat(11, 7, 'A', 65)); // 65 is ascii value of 'A'
+	/* same char (4)*/ 
+	// SUBCASE("same char") {		
+	// 	CHECK_THROWS(mat(11, 7, '$', '$'));
+	// 	CHECK_THROWS(mat(1, 1, '=', '='));
+	// 	CHECK_THROWS(mat(2, 7, '%', '%'));
+	// 	CHECK_THROWS(mat(11, 7, 'A', 65)); // 65 is ascii value of 'A'
+	// }
+	
+	/* bad chars (8) */
+	SUBCASE("bad char") {
+		CHECK_THROWS(mat(11, 7, '$', ' '));
+		CHECK_THROWS(mat(1, 1, '=', '\n'));
+		CHECK_THROWS(mat(5, 7, '%', '\t'));
+		CHECK_THROWS(mat(13, 7, 'A', '\r')); 
 	}
+	/* negative input and zeros (8)*/
 	SUBCASE("negative and zeros") {
 		CHECK_THROWS(mat(0, 7, '%', '='));
 		CHECK_THROWS(mat(7, 0, '%', '='));
