@@ -13,7 +13,10 @@
 #include <iostream>
 #include "mat.hpp"
 
-void mat2arr(int w, int h, int **arr)
+#include <vector>
+using namespace std;
+
+vector<vector<int>> mat2arr(int w, int h, vector<vector<int>> arr)
 
 /**
  * @brief 
@@ -22,40 +25,38 @@ void mat2arr(int w, int h, int **arr)
  */
 {
     int k = 0;
-    bool flag = true;
+    bool symflag = true;
     while (k<=w/2||k<=h/2) 
     {
         for (int j=k; j<w-k; j++) {
-            if (flag && h-k>0) {
+            if (symflag && h-k>0) {
                 arr[k][j] = 1;}
             else if (h-k>0){
                 arr[k][j] = 0;}
         }
         for (int i=k; i<h-k; i++) {
-            if (flag && w-k>0){
+            if (symflag && w-k>0){
                 arr[i][w-k-1] = 1;}
             else if (w-k>0){
                 arr[i][w-k-1] = 0;}
         }
         for (int j=w-k-1; j>=k; j--) {
-            if (flag && h-k>0) {
+            if (symflag && h-k>0) {
                 arr[h-1-k][j] = 1;}
             else if (h-k>0){
                 arr[h-1-k][j] = 0;}
         }
         for (int i=h-k-1; i>=k; i--) {
-            if (flag && w-k>0) {
+            if (symflag && w-k>0) {
                 arr[i][k] = 1; }
             else if (w-k>0) {
                 arr[i][k] = 0;}
         }
 
-        if (flag) {
-            flag = false; }
-        else {
-            flag = true; }
+        symflag = !symflag; //flip "symflag" - symbol symflag. 
         k++;
     }
+        return arr;
 }
 
 namespace ariel {
@@ -78,7 +79,9 @@ namespace ariel {
         // if (a==b) {
         //     throw std::runtime_error("Mat has to contain 2 different symbols");
         // }
-        if (a==' '||b==' '||a=='\t'||b=='\t'||a=='\n'||b=='\n'||a=='\r'||b=='\r') {
+        const short asciiinf = 33;
+        const short asciisup = 126;
+        if (a<asciiinf||a>asciisup||b<asciiinf||b>asciisup) {
             throw std::runtime_error("Mat can't contain special characters");
         }
         std::string res;
@@ -88,23 +91,24 @@ namespace ariel {
         }
 
         // Memory allocation for new array
-        int **arr = nullptr; 
-        arr = new int*[h];
-        for (int i = 0; i < h; i++) {
-            arr[i] = new int[w]; }
+        // int **arr = nullptr; 
+        // arr = new int*[h];
+        // for (int i = 0; i < h; i++) {
+        //     arr[i] = new int[w]; }
+
+        vector<vector<int>> arr(h, vector<int>(w));
         
-        mat2arr(w, h, arr);
+        arr = mat2arr(w, h, arr);
 
         for (int i=0; i<h; i++) {
             for (int j=0; j<w; j++) {
-                if (arr[i][j]==1) {
+                if (arr.at(i).at(j)==1) {
                     res += a; }
                 else {
                     res += b; }
             }
             res += "\n";
         }
-        delete[] arr;
         return res;
     }
 }
